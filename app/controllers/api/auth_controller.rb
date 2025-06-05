@@ -21,7 +21,7 @@ class Api::AuthController < ApplicationController
       token = encode_token({ user_id: user.id }) # JWT を生成
       render json: { token: token, user: { id: user.id, username: user.username } }, status: :ok
     else
-      render json: { error: '無効なユーザー名またはパスワード' }, status: :unauthorized
+      render json: { error: "無効なユーザー名またはパスワード" }, status: :unauthorized
     end
   end
 

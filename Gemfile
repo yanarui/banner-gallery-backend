@@ -1,11 +1,11 @@
 source "https://rubygems.org"
 
-gem 'rack-cors'
+gem "rack-cors"
 gem "bcrypt", "~> 3.1"
 gem "jwt", "~> 2.10"
 
-gem 'cloudinary'
-gem 'dotenv-rails', groups: [:development, :test]
+gem "cloudinary"
+gem "dotenv-rails", groups: [ :development, :test ]
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 8.0.2"

@@ -11,7 +11,7 @@ class Api::BannersController < ApplicationController
     else
       banners = Banner.includes(:tags).order(id: :desc)
     end
-  
+
     render json: banners.map { |banner|
       {
         id: banner.id,
@@ -39,21 +39,21 @@ class Api::BannersController < ApplicationController
     uploaded_file = params[:file]
     company_name = params[:company_name]
     user = current_user
-  
+
     return render json: { error: "ユーザーが認証されていません" }, status: :unauthorized unless user
     return render json: { error: "ファイルが選択されていません" }, status: :unprocessable_entity unless uploaded_file
-  
+
     begin
       # Cloudinary にアップロード
       file_url = upload_to_cloudinary(uploaded_file)
-  
+
       # データベースに保存
       banner = Banner.create!(
         image_url: file_url,
         company_name: company_name,
         user_id: user.id
       )
-      
+
       # タグ情報を処理
       if params[:tags]
         tags = JSON.parse(params[:tags]) # フロントエンドから送信された JSON をパース
@@ -62,10 +62,10 @@ class Api::BannersController < ApplicationController
           BannerTag.create!(banner: banner, tag: tag)
         end
       end
-  
+
       detail_url = "https://banner-gallery-frontend.vercel.app/bannerdetailpage?id=#{banner.id}"
-  
-      render json: { message: 'アップロード成功', banner: banner, detail_url: detail_url }, status: :created
+
+      render json: { message: "アップロード成功", banner: banner, detail_url: detail_url }, status: :created
     rescue Cloudinary::Api::Error => e
       Rails.logger.error("Cloudinary API Error: #{e.message}")
       render json: { error: "Cloudinary API Error: #{e.message}" }, status: :unprocessable_entity
@@ -77,7 +77,7 @@ class Api::BannersController < ApplicationController
       render json: { error: e.message }, status: :unprocessable_entity
     end
   end
-  
+
   def destroy
     banner = current_user.banners.find_by(id: params[:id])
     if banner
@@ -114,7 +114,7 @@ class Api::BannersController < ApplicationController
   private
 
   def banner_params
-    params.require(:banner).permit(:company_name, :image_url, tags_attributes: [:id, :name, :tag_type, :_destroy])
+    params.require(:banner).permit(:company_name, :image_url, tags_attributes: [ :id, :name, :tag_type, :_destroy ])
   end
 
   def banner_params
@@ -146,5 +146,4 @@ class Api::BannersController < ApplicationController
     result = Cloudinary::Uploader.upload(uploaded_file.path, folder: "banners/by_user/")
     result["secure_url"]
   end
-
 end
