@@ -43,6 +43,7 @@ production:
     adapter: postgresql
     encoding: unicode
     database: <%= ENV.fetch("DB_NAME", "banner_gallery_db") %>
-    username: <%= ENV.fetch("DB_USERNAME", "banner_admin") %>
-    password: <%= ENV.fetch("DB_PASSWORD") %>
-    host: <%= ENV.fetch("DB_HOST") %>
+    pool: 5
+    username: <%= ENV['DB_USERNAME'] %>
+    password: <%= ENV['DB_PASSWORD'] %>
+    host: <%= ENV['DB_HOST'] %>
