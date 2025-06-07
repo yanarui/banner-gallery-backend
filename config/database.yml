@@ -17,33 +17,17 @@ test:
 
 production:
   primary:
-    adapter: postgresql
-    encoding: unicode
-    database: <%= ENV.fetch("DB_NAME", "banner_gallery_db") %>
+    url: <%= ENV['DATABASE_URL'] %>
     pool: 5
-    username: <%= ENV.fetch("DB_USERNAME", "banner_admin") %>
-    password: <%= ENV.fetch("DB_PASSWORD") %>
-    host: <%= ENV.fetch("DB_HOST") %>
 
   queue:
-    adapter: postgresql
-    url: <%= ENV["DATABASE_URL"] %>
+    url: <%= ENV['DATABASE_URL'] %>
     pool: 5
 
   cable:
-    adapter: postgresql
-    encoding: unicode
-    database: <%= ENV.fetch("DB_NAME", "banner_gallery_db") %>
-    username: <%= ENV.fetch("DB_USERNAME", "banner_admin") %>
-    password: <%= ENV.fetch("DB_PASSWORD") %>
-    host: <%= ENV.fetch("DB_HOST") %>
+    url: <%= ENV['DATABASE_URL'] %>
     pool: 5
 
-    cache:
-    adapter: postgresql
-    encoding: unicode
-    database: <%= ENV.fetch("DB_NAME", "banner_gallery_db") %>
+  cache:
+    url: <%= ENV['DATABASE_URL'] %>
     pool: 5
-    username: <%= ENV['DB_USERNAME'] %>
-    password: <%= ENV['DB_PASSWORD'] %>
-    host: <%= ENV['DB_HOST'] %>
