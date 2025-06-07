@@ -25,6 +25,11 @@ production:
     password: <%= ENV.fetch("DB_PASSWORD") %>
     host: <%= ENV.fetch("DB_HOST") %>
 
+  queue:
+    adapter: postgresql
+    url: <%= ENV["DATABASE_URL"] %>
+    pool: 5
+
   cable:
     adapter: postgresql
     encoding: unicode
