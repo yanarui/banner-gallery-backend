@@ -91,8 +91,18 @@ class Api::BannersController < ApplicationController
   # バナーの更新
   def update
     banner = current_user.banners.find(params[:id])
-    if banner.update(banner_params)
-      render json: { message: "バナーを更新しました", banner: banner }, status: :ok
+    banner.company_name = params[:company_name] if params[:company_name].present?
+    if params[:tags]
+      tags = JSON.parse(params[:tags])
+      tags.each do |tag_data|
+        tag = Tag.find_or_create_by!(name: tag_data["name"], tag_type: tag_data["tag_type"])
+        BannerTag.create!(banner: banner, tag: tag)
+      end
+    end
+
+    if banner.save
+      detail_url = "https://banner-gallery-frontend.vercel.app/bannerdetailpage?id=#{banner.id}"
+      render json: { message: "バナーを更新しました", banner: banner, detail_url: detail_url }, status: :ok
     else
       render json: { error: banner.errors.full_messages }, status: :unprocessable_entity
     end
