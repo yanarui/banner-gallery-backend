@@ -90,10 +90,11 @@ class Api::BannersController < ApplicationController
 
   # バナーの更新
   def update
-    banner = current_user.banners.find(params[:id])
-    banner.company_name = params[:company_name] if params[:company_name].present?
+  banner = current_user.banners.find(params[:id])
+  banner.company_name = params[:company_name] if params[:company_name].present?
     if params[:tags]
       tags = JSON.parse(params[:tags])
+      banner.banner_tags.destroy_all
       tags.each do |tag_data|
         tag = Tag.find_or_create_by!(name: tag_data["name"], tag_type: tag_data["tag_type"])
         BannerTag.create!(banner: banner, tag: tag)
