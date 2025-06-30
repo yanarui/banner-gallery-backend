@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 gem "rack-cors"
 gem "bcrypt", "~> 3.1"
-gem "jwt", "~> 2.10"
+gem "jwt", "~> 3.1"
 
 gem "cloudinary"
 gem "dotenv-rails", groups: [ :development, :test ]
